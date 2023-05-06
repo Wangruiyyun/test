@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./css/resetstyle.css">
+    <link rel="stylesheet" type="text/css" href="./css/header.css">
+    <link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_1516905_v4je4rmsza.css">
+    <title>海购君</title>
+</head>
+<body>
+    <div class="header clearfix">
+        <div class="header_h w1200 clearfix">
+           <div class="header_top1">
+               <a href="#">欢迎进入咨讯！</i></a>
+           </div>
+           <div class="header_top2">
+                <a href="#"><i  class="iconfont icon-icon-home"></i>返回首页 | </a>
+           </div>
+           <div class="header_top3">
+                <a href="#"><i  class="iconfont icon-jiantou-copy"></i>返回顶部</a>
+           </div>  
+        </div>
+        <div class="header_feet w1200 clearfix" >
+            
+            
+            <ul class="banenr" id="banner">
+                     <li><a>网站首页</a></li>
+                     <li><a>咨讯动态</a></li>
+                     <li><a>政策法规</a></li>
+                     <li><a>海淘新手</a></li>
+                     <li><a>直邮攻略</a></li>
+                     <li><a>商家动态</a></li>
+         </ul>
+        </div>
+    
+    </div>
+</body>
+<script>
+         var list =document.getElementById("banner").querySelectorAll("li");
+         for (var i = 0; i < list.length; i++) {
+               list[i].onmouseover=function(){
+
+
+                this.className="gaibian";
+               }
+               list[i].onmouseout=function(){
+                this.className="";
+
+               }
+
+               list[i].onclick=function(){
+                for (var i = 0; i < list.length; i++) {
+                  list[i].style.backgroundColor='';
+                  }
+                this.style.backgroundColor="red";
+               }
+
+         }
+
+
+
+    
+     
+
+   
+   
+
+</script>
+</html>

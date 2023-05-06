@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/轮播图.css">
+    <link rel="stylesheet" type="text/css" href="./css/resetstyle.css">
+    <link rel="stylesheet" href="http:////at.alicdn.com/t/font_1516905_knldq7pl0je.css">
+</head>
+<body>
+    <div class="banner" id="banner">
+        
+                <ul>
+                    <li><a href="javascript:void(0)"><img src="./image/no1.jpg" alt=""></a></li>
+                    <li><a href="javascript:void(0)"><img src="./image/no2.jpg" alt=""></a></li>
+                    <li><a href="javascript:void(0)"><img src="./image/no3.jpg" alt=""></a></li>
+                    <li><a href="javascript:void(0)"><img src="./image/no4.jpg" alt=""></a></li>
+                    <li><a href="javascript:void(0)"><img src="./image/no5.jpg" alt=""></a></li>
+                    <li><a href="javascript:void(0)"><img src="./image/no6.jpg" alt=""></a></li>
+                    <li><a href="javascript:void(0)"><img src="./image/no7.jpg" alt=""></a></li>
+                </ul>
+
+              <div class="bnt">
+                <span class="cur"></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+              </div>
+              <div id="focus">
+                <span id="focus_left"><i class="iconfont icon-back"></i></span>
+                <span id="focus_right"><i class="iconfont icon-next"></i></span>
+            </div>
+    </div>
+
+    <script>
+        var banner= document.getElementById("banner");
+        
+        var bnt=banner.children[1]
+        var ulObj=banner.children[0]
+        //console.log(ulObj)
+        var span= bnt.children
+        var imgwidth=banner.offsetWidth
+        //console.log(imgwidth)
+        var firstImg = ulObj.firstElementChild;
+        var cloneFirstImg = firstImg.cloneNode(true);
+        var lastImg = ulObj.lastElementChild.cloneNode(true);
+        var focus=banner.children[2]
+        ulObj.insertBefore(lastImg,firstImg);
+        ulObj.appendChild(cloneFirstImg);
+        
+        ulObj.style.width = ulObj.children.length*imgwidth+"px";
+
+        //console.log(ulObj.style.width)
+       
+        ulObj.style.left = -imgwidth+"px";
+
+        //  ------------------------------------------------------------------
+        ulObj.current = 1; 
+
+    
+    //  // 鼠标悬浮显示左右焦点
+     banner.onmouseover = function(){
+        focus.style.display="block"
+        clearInterval(autoplay)
+    };
+    // 鼠标离开隐藏左右焦点
+    banner.onmouseout = function(){
+        focus.style.display="none"
+        autoplay = setInterval(function () {
+            running()
+        },3000);
+    };
+    focus.children[0].onclick=function(){
+        ulObj.current--;
+        if(ulObj.current<=0) {
+            ulObj.style.left = -(ulObj.children.length - 1) * imgwidth + "px";
+            ulObj.current = ulObj.children.length - 2;
+        }
+        for(var j=0;j<span.length;j++){
+            span[j].removeAttribute("class")
+        }
+        span[ulObj.current-1].className = "cur";
+        animate(ulObj,-imgwidth*ulObj.current)
+
+    };
+    // 右边按钮
+    focus.children[1].onclick=function(){
+        ulObj.current++;
+     
+        if(ulObj.current >= ulObj.children.length-1){
+            ulObj.style.left="0px";
+            ulObj.current=1;
+        }
+        for(var j=0;j<span.length;j++){
+            span[j].removeAttribute("class")
+        }
+        span[ulObj.current-1].className = "cur";
+        animate(ulObj,-imgwidth*ulObj.current)
+    };
+
+    for(var i=0;i<span.length;i++){
+        span[i].index=i+1;
+        span[i].onmouseover=function(){
+            clearInterval(autoplay)
+            for(var j=0;j<span.length;j++){
+                span[j].className=" "
+            }
+            this.className="cur"
+            ulObj.current = this.index;
+           // console.log(ulObj.current)
+            var tt=Math.abs(Math.abs(imgwidth*this.index)-Math.abs(ulObj.offsetLeft))
+            if(tt>600){
+                animate2(ulObj,-imgwidth*ulObj.current)
+            }else{
+                animate(ulObj,-imgwidth*ulObj.current)
+            }
+
+        }
+        
+      
+    }
+   
+    var autoplay = setInterval(function () {
+        running()
+    },5000);
+    function running(){
+
+        ulObj.current++;
+        //console.log(ulObj.current)
+       
+        if(ulObj.current >= ulObj.children.length-1){
+            ulObj.style.left="0px";
+           ulObj.current=1;
+        }
+        for(var j=0;j<span.length;j++){
+            span[j].removeAttribute("class")
+        }
+        span[ulObj.current-1].className = "cur";
+        animate(ulObj,-imgwidth*ulObj.current)
+        
+    }  
+    function animate(element,index){
+        clearInterval(element.timerId);
+        element.timerId=setInterval(function(){
+            var onindex=element.offsetLeft;
+           
+            var step =10;
+            step=onindex<index? step:-step;
+            onindex+=step;
+            element.style.left=onindex+"px"
+                      
+              if (Math.abs(step) >= Math.abs(index - onindex)) {
+                clearInterval(element.timerId); 
+                element.style.left = index + "px";
+            }
+        },10)
+
+    }
+    function animate2(element,index){
+        clearInterval(element.timerId);
+        element.timerId=setInterval(function(){
+            var onindex=element.offsetLeft; 
+            element.style.left=index+"px";     
+             
+        },10)
+
+    }
+
+    
+    
+    
+    </script>
+    
+</body>
+</html>
